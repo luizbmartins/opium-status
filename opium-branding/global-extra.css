@@ -1,5 +1,5 @@
 
-/* ===== Marca Opium (aplicado por site.yml apos o build do Upptime) ===== */
+/* ===== Marca Opium (aplicado por site.yml/setup.yml apos o build do Upptime) ===== */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap');
 
 body {
@@ -16,4 +16,94 @@ article {
 
 .tag {
   border-radius: 6px;
+}
+
+/* Largura de conteudo igual ao site principal (nav + main compartilham .container) */
+.container {
+  max-width: 1160px;
+  padding: 0 32px;
+  box-sizing: border-box;
+}
+
+/* ── Header, no mesmo estilo do site-header do website Opium ── */
+nav.svelte-a08hsz {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  background: rgba(250, 250, 249, 0.82);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  border-bottom: 1px solid #E8E6E0;
+}
+@media (prefers-color-scheme: dark) {
+  nav.svelte-a08hsz {
+    background: rgba(20, 20, 20, 0.82);
+    border-bottom-color: #2E2E2E;
+  }
+}
+
+nav.svelte-a08hsz .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+}
+
+nav.svelte-a08hsz .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+nav.svelte-a08hsz .logo img { display: none; }
+nav.svelte-a08hsz .logo div { display: none; }
+nav.svelte-a08hsz .logo::before {
+  content: "";
+  display: inline-block;
+  width: 150px;
+  height: 58px;
+  background-image: url('https://raw.githubusercontent.com/luizbmartins/opium-status/master/assets/logo-light.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+@media (prefers-color-scheme: dark) {
+  nav.svelte-a08hsz .logo::before {
+    background-image: url('https://raw.githubusercontent.com/luizbmartins/opium-status/master/assets/logo-dark.svg');
+  }
+}
+
+nav.svelte-a08hsz ul {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+nav.svelte-a08hsz ul a {
+  display: inline-block;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4A4845;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+nav.svelte-a08hsz ul a:hover,
+nav.svelte-a08hsz ul a[aria-current="page"] {
+  color: #1A1918;
+  background: #F0EFEC;
+}
+@media (prefers-color-scheme: dark) {
+  nav.svelte-a08hsz ul a { color: #C2BFB9; }
+  nav.svelte-a08hsz ul a:hover,
+  nav.svelte-a08hsz ul a[aria-current="page"] {
+    color: #F0EFED;
+    background: #232323;
+  }
 }

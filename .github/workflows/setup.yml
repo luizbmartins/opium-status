@@ -48,12 +48,11 @@ jobs:
         with:
           ref: ${{ github.head_ref || github.ref_name }}
           token: ${{ steps.app_token.outputs.token || secrets.GH_PAT || github.token }}
-      - name: Update template
-        uses: upptime/uptime-monitor@v1.44.0
-        with:
-          command: "update-template"
-        env:
-          GH_PAT: ${{ steps.app_token.outputs.token || secrets.GH_PAT || github.token }}
+      # Passo "Update template" removido de proposito (13/set/2026): ele
+      # reescreve .github/workflows/* inteiro a partir do template oficial
+      # do Upptime a cada run, destruindo a customizacao visual do Opium
+      # (header, logo, footer). Atualizar a versao do Upptime, se um dia
+      # precisar, agora e manual.
       - name: Update response time
         uses: upptime/uptime-monitor@v1.44.0
         with:
@@ -93,6 +92,14 @@ jobs:
           command: "site"
         env:
           GH_PAT: ${{ steps.app_token.outputs.token || secrets.GH_PAT || github.token }}
+      - name: Aplica tema visual Opium
+        run: |
+          set -e
+          EXPORT_DIR="site/status-page/__sapper__/export"
+          cp -f opium-branding/themes/light.css "$EXPORT_DIR/themes/light.css"
+          cp -f opium-branding/themes/dark.css "$EXPORT_DIR/themes/dark.css"
+          cat opium-branding/global-extra.css >> "$EXPORT_DIR/global.css"
+          sed -i 's#<a href=https://github.com/luizbmartins/opium-status>open source</a>, ##g' "$EXPORT_DIR"/*.html
       - uses: peaceiris/actions-gh-pages@v4
         name: GitHub Pages Deploy
         with:
