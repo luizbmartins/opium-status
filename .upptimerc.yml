@@ -12,6 +12,7 @@ sites:
 status-website:
   # DNS: status.opium.vet aponta (CNAME, via Cloudflare Pages) pro site estatico gerado aqui
   cname: status.opium.vet
+  logoUrl: https://raw.githubusercontent.com/luizbmartins/opium-status/master/assets/opium-logo.svg
   name: Opium — Status
   introTitle: "**Status do Opium**"
   introMessage: Disponibilidade do sistema, API e banco de dados, monitorados a cada poucos minutos via GitHub Actions. Página estática e independente da nossa infraestrutura — continua no ar mesmo se nossos servidores caírem.
