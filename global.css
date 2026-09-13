@@ -201,22 +201,3 @@ article .graph {
   opacity: var(--graph-opacity);
   filter: var(--graph-filter);
 }
-
-/* ===== Marca Opium (aplicado por site.yml apos o build do Upptime) ===== */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap');
-
-body {
-  font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 500;
-}
-
-article {
-  border-radius: 12px;
-}
-
-.tag {
-  border-radius: 6px;
-}
