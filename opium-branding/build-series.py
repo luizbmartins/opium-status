@@ -8,7 +8,7 @@ import json
 import os
 from datetime import datetime, timedelta, timezone
 
-SITES = ["sistema-site", "api", "banco-de-dados"]
+SITES = ["plataforma", "api", "banco-de-dados"]
 NOW = datetime.now(timezone.utc)
 
 
