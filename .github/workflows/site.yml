@@ -68,7 +68,7 @@ jobs:
           cp -f opium-branding/uptime-bars.css "$EXPORT_DIR/uptime-bars.css"
           sed -i 's#<a href=https://github.com/luizbmartins/opium-status>open source</a>, ##g' "$EXPORT_DIR"/*.html
           sed -i 's#</head>#<link rel=stylesheet href=/uptime-bars.css></head>#' "$EXPORT_DIR"/*.html
-          sed -i 's#</body>#<script defer src=/uptime-bars.js></script></body>#' "$EXPORT_DIR"/*.html
+          for f in "$EXPORT_DIR"/*.html; do echo '<script defer src=/uptime-bars.js></script>' >> "$f"; done
       - uses: peaceiris/actions-gh-pages@v4
         name: GitHub Pages Deploy
         with:
