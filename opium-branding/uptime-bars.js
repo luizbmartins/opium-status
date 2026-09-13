@@ -1,0 +1,204 @@
+(function () {
+  "use strict";
+  var OWNER = "luizbmartins";
+  var REPO = "opium-status";
+  var BASE = "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/master/history/";
+
+  var FILTERS = [
+    { key: "hora", label: "Última hora" },
+    { key: "dia", label: "Últimas 24h" },
+    { key: "mes", label: "Últimos 30 dias" },
+  ];
+  var current = "dia";
+
+  function fetchJson(url) {
+    return fetch(url, { cache: "no-store" }).then(function (r) {
+      if (!r.ok) throw new Error("http " + r.status);
+      return r.json();
+    });
+  }
+
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+  function dateKey(d) {
+    return d.getUTCFullYear() + "-" + pad(d.getUTCMonth() + 1) + "-" + pad(d.getUTCDate());
+  }
+
+  // Retorna lista de {status: 'up'|'down'|'degraded'|'none', title}
+  function barsHora(recent) {
+    var cutoff = Date.now() - 60 * 60 * 1000;
+    var pts = (recent || []).filter(function (p) { return new Date(p.t).getTime() > cutoff; });
+    return pts.map(function (p) {
+      var t = new Date(p.t);
+      return {
+        status: p.up ? "up" : "down",
+        title: t.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) + " — " + (p.up ? "operacional" : "fora do ar"),
+      };
+    });
+  }
+
+  function barsDia(hourly) {
+    var now = new Date();
+    var buckets = {};
+    (hourly || []).forEach(function (b) { buckets[b.h] = b; });
+    var out = [];
+    for (var i = 23; i >= 0; i--) {
+      var d = new Date(now);
+      d.setUTCMinutes(0, 0, 0);
+      d.setUTCHours(d.getUTCHours() - i);
+      var key = d.toISOString();
+      var b = buckets[key];
+      var status = "none";
+      if (b) {
+        if (b.down === 0) status = "up";
+        else if (b.up === 0) status = "down";
+        else status = "degraded";
+      }
+      out.push({
+        status: status,
+        title: d.toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit" }) + "h — " +
+          (status === "up" ? "operacional" : status === "down" ? "fora do ar" : status === "degraded" ? "instabilidade" : "sem dado"),
+      });
+    }
+    return out;
+  }
+
+  function barsMes(dailyMinutesDown) {
+    var now = new Date();
+    var out = [];
+    for (var i = 29; i >= 0; i--) {
+      var d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - i));
+      var key = dateKey(d);
+      var mins = (dailyMinutesDown || {})[key];
+      var status = "none";
+      if (mins !== undefined) {
+        if (mins <= 0) status = "up";
+        else if (mins >= 1380) status = "down";
+        else status = "degraded";
+      }
+      out.push({
+        status: status,
+        title: d.toLocaleDateString("pt-BR") + " — " +
+          (status === "up" ? "operacional" : status === "down" ? "fora do ar o dia todo" : status === "degraded" ? mins + " min fora do ar" : "sem dado"),
+      });
+    }
+    return out;
+  }
+
+  function renderBars(container, bars) {
+    container.innerHTML = "";
+    bars.forEach(function (b) {
+      var el = document.createElement("span");
+      el.className = "opium-bar opium-bar-" + b.status;
+      el.title = b.title;
+      container.appendChild(el);
+    });
+  }
+
+  function buildRow(site) {
+    var row = document.createElement("div");
+    row.className = "opium-uptime-row";
+
+    var head = document.createElement("div");
+    head.className = "opium-uptime-head";
+    var icon = document.createElement("img");
+    icon.className = "opium-uptime-icon";
+    icon.alt = "";
+    icon.src = site.icon || "";
+    var name = document.createElement("a");
+    name.className = "opium-uptime-name";
+    name.textContent = site.name;
+    name.href = site.url && site.url.indexOf("$") !== 0 ? site.url : "#";
+    var tag = document.createElement("span");
+    tag.className = "tag " + site.status;
+    tag.textContent = site.status === "up" ? "Operacional" : "Fora do ar";
+    head.appendChild(icon);
+    head.appendChild(name);
+    head.appendChild(tag);
+
+    var bars = document.createElement("div");
+    bars.className = "opium-uptime-bars";
+
+    row.appendChild(head);
+    row.appendChild(bars);
+    row._barsEl = bars;
+    row._site = site;
+    return row;
+  }
+
+  function update(rows) {
+    rows.forEach(function (row) {
+      var site = row._site;
+      if (current === "hora") {
+        fetchJson(BASE + site.slug + "-recent.json")
+          .then(function (data) { renderBars(row._barsEl, barsHora(data)); })
+          .catch(function () { renderBars(row._barsEl, []); });
+      } else if (current === "dia") {
+        fetchJson(BASE + site.slug + "-hourly.json")
+          .then(function (data) { renderBars(row._barsEl, barsDia(data)); })
+          .catch(function () { renderBars(row._barsEl, barsDia([])); });
+      } else {
+        renderBars(row._barsEl, barsMes(site.dailyMinutesDown));
+      }
+    });
+  }
+
+  function init() {
+    var main = document.querySelector("main.container");
+    if (!main) return;
+
+    var wrap = document.createElement("section");
+    wrap.className = "opium-uptime-widget";
+
+    var titleRow = document.createElement("div");
+    titleRow.className = "opium-uptime-titlerow";
+    var h2 = document.createElement("h2");
+    h2.textContent = "Disponibilidade";
+    var tabs = document.createElement("div");
+    tabs.className = "opium-uptime-tabs";
+    FILTERS.forEach(function (f) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = f.label;
+      btn.className = "opium-uptime-tab" + (f.key === current ? " active" : "");
+      btn.addEventListener("click", function () {
+        current = f.key;
+        Array.prototype.forEach.call(tabs.children, function (c) { c.classList.remove("active"); });
+        btn.classList.add("active");
+        update(rows);
+      });
+      tabs.appendChild(btn);
+    });
+    titleRow.appendChild(h2);
+    titleRow.appendChild(tabs);
+    wrap.appendChild(titleRow);
+
+    var rows = [];
+    fetchJson(BASE + "summary.json")
+      .then(function (sites) {
+        sites.forEach(function (site) {
+          var row = buildRow(site);
+          rows.push(row);
+          wrap.appendChild(row);
+        });
+        update(rows);
+      })
+      .catch(function () {
+        var p = document.createElement("p");
+        p.textContent = "Não foi possível carregar os dados de disponibilidade agora.";
+        wrap.appendChild(p);
+      });
+
+    var liveStatusSection = document.querySelector("section.live-status");
+    if (liveStatusSection && liveStatusSection.parentNode) {
+      liveStatusSection.parentNode.insertBefore(wrap, liveStatusSection);
+    } else {
+      main.appendChild(wrap);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
