@@ -1,0 +1,94 @@
+
+/* Esconde o "Live Status" nativo do Upptime (grafico de ms em PNG) —
+   substituido pelo widget de barras (opium-uptime-widget) injetado via JS. */
+div.svelte-fqsq6s.f.changed,
+section.svelte-fqsq6s.live-status {
+  display: none !important;
+}
+
+.opium-uptime-widget {
+  margin: 24px 0;
+}
+
+.opium-uptime-titlerow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.opium-uptime-titlerow h2 {
+  margin: 0;
+}
+
+.opium-uptime-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--card-background-color, #fff);
+  border: 1px solid var(--card-border-color, #E8E6E0);
+  border-radius: 8px;
+  padding: 3px;
+}
+.opium-uptime-tab {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--body-text-color, #1A1918);
+  opacity: 0.6;
+}
+.opium-uptime-tab.active {
+  opacity: 1;
+  background: var(--nav-current-border-bottom-color, #141414);
+  color: var(--card-background-color, #fff);
+}
+
+.opium-uptime-row {
+  border: 1px solid var(--card-border-color, #E8E6E0);
+  background: var(--card-background-color, #fff);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+
+.opium-uptime-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.opium-uptime-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}
+.opium-uptime-name {
+  font-weight: 500;
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
+}
+
+.opium-uptime-bars {
+  display: flex;
+  gap: 2px;
+  align-items: stretch;
+  height: 28px;
+}
+
+.opium-bar {
+  flex: 1;
+  min-width: 2px;
+  border-radius: 3px;
+  background: var(--card-border-color, #E8E6E0);
+  cursor: default;
+}
+.opium-bar-up { background: var(--up-border-left-color, #3B6D11); }
+.opium-bar-down { background: var(--down-border-left-color, #A32D2D); }
+.opium-bar-degraded { background: var(--degraded-border-left-color, #BA7517); }
+.opium-bar-none { background: var(--card-border-color, #E8E6E0); opacity: 0.5; }
