@@ -11,7 +11,7 @@ sites:
     url: https://app.opium.vet/api/health/db
 
 status-website:
-  # Aponte o DNS de status.opium.vet (CNAME) pro Cloudflare Pages que serve este repo
+  # DNS: status.opium.vet aponta (CNAME, via Cloudflare Pages) pro site estatico gerado aqui
   cname: status.opium.vet
   name: Opium — Status
   introTitle: "**Status do Opium**"
