@@ -10,10 +10,14 @@
   --down-background-color: #FCEBEB;
   --degraded-border-left-color: #BA7517;
   --up-border-left-color: #3B6D11;
-  --tag-color: #FFFFFF;
-  --tag-up-background-color: #3B6D11;
-  --tag-down-background-color: #A32D2D;
-  --tag-degraded-background-color: #BA7517;
+  /* Badges (Operational/Down/Degraded) no mesmo tom claro/vivo do tema
+     escuro -- os tons escuros nativos (#3B6D11 etc) ficavam apagados demais
+     como badge. Texto escuro em vez de branco pra manter contraste contra o
+     fundo mais claro. */
+  --tag-color: #1D1D1D;
+  --tag-up-background-color: #8FC15C;
+  --tag-down-background-color: #E27C7C;
+  --tag-degraded-background-color: #E3AC5C;
   --change-background-color: #BA7517;
   --error-button-border-color: #A32D2D;
   --error-button-background-color: #A32D2D;
