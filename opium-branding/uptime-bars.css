@@ -117,23 +117,16 @@ section.svelte-8lnl4f {
 
 .opium-uptime-graph {
   margin-top: 12px;
-  height: 40px;
-  overflow: hidden;
-  border: 1px solid var(--card-border-color, #E8E6E0);
-  border-radius: 6px;
+  height: 80px;
+  display: flex;
+  justify-content: flex-end;
 }
 .opium-uptime-graph img {
   display: block;
-  width: 100%;
-  height: 40px;
-  /* "contain" deixava a imagem inteira (proporcao 600x400) encolhida bem
-     estreita dentro dos 40px de altura, sobrando espaco vazio nos dois lados
-     ("centralizada"). "cover" preenchia a largura mas cortava a maior parte
-     do grafico (so aparecia uma faixa central). Como e um sparkline
-     decorativo sem eixo pra ler com precisao, "fill" (estica sem manter
-     proporcao) preenche largura E altura mostrando o grafico inteiro, so
-     achatado verticalmente. */
-  object-fit: fill;
+  height: 80px;
+  width: auto;
+  border: 1px solid var(--card-border-color, #E8E6E0);
+  border-radius: 6px;
   /* O PNG do Upptime vem com fundo branco solido e linha azul, sem opcao de
      configurar. "multiply" faz o branco desaparecer (funde com o fundo do
      card em qualquer tema) e o grayscale deixa a linha num tom neutro em vez
@@ -168,18 +161,21 @@ section.svelte-8lnl4f {
   transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
 }
 
-/* "LED aceso" permanente: glow forte sempre visivel, nao so no hover. */
+/* "LED aceso" permanente: glow forte sempre visivel, nao so no hover.
+   Cor fixa (tom do tema escuro) nos dois temas de proposito -- no tema claro
+   o tom padrao (--up-border-left-color etc) ficava escuro/apagado demais
+   pro efeito de LED; o tom do escuro (mais vivo/claro) funciona bem nos dois. */
 .opium-bar-up {
-  background: var(--up-border-left-color, #3B6D11);
-  box-shadow: 0 0 9px 2px rgba(59, 109, 17, 0.85), inset 0 1px 2px rgba(255, 255, 255, 0.45);
+  background: #8FC15C;
+  box-shadow: 0 0 9px 2px rgba(143, 193, 92, 0.85), inset 0 1px 2px rgba(255, 255, 255, 0.45);
 }
 .opium-bar-down {
-  background: var(--down-border-left-color, #A32D2D);
-  box-shadow: 0 0 9px 2px rgba(163, 45, 45, 0.85), inset 0 1px 2px rgba(255, 255, 255, 0.45);
+  background: #E27C7C;
+  box-shadow: 0 0 9px 2px rgba(226, 124, 124, 0.85), inset 0 1px 2px rgba(255, 255, 255, 0.45);
 }
 .opium-bar-degraded {
-  background: var(--degraded-border-left-color, #BA7517);
-  box-shadow: 0 0 9px 2px rgba(186, 117, 23, 0.85), inset 0 1px 2px rgba(255, 255, 255, 0.45);
+  background: #E3AC5C;
+  box-shadow: 0 0 9px 2px rgba(227, 172, 92, 0.85), inset 0 1px 2px rgba(255, 255, 255, 0.45);
 }
 .opium-bar-none {
   background: var(--card-border-color, #E8E6E0);
@@ -195,13 +191,13 @@ section.svelte-8lnl4f {
   filter: brightness(1.3) saturate(1.15);
 }
 .opium-bar-up:hover, .opium-bar-up.is-active {
-  box-shadow: 0 0 14px 4px rgba(59, 109, 17, 1), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 14px 4px rgba(143, 193, 92, 1), inset 0 1px 2px rgba(255, 255, 255, 0.6);
 }
 .opium-bar-down:hover, .opium-bar-down.is-active {
-  box-shadow: 0 0 14px 4px rgba(163, 45, 45, 1), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 14px 4px rgba(226, 124, 124, 1), inset 0 1px 2px rgba(255, 255, 255, 0.6);
 }
 .opium-bar-degraded:hover, .opium-bar-degraded.is-active {
-  box-shadow: 0 0 14px 4px rgba(186, 117, 23, 1), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 14px 4px rgba(227, 172, 92, 1), inset 0 1px 2px rgba(255, 255, 255, 0.6);
 }
 .opium-bar-none:hover, .opium-bar-none.is-active {
   transform: scaleY(1.1);
