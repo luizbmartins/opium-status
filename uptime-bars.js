@@ -233,6 +233,26 @@
     });
   }
 
+  // Esconde o "Live Status" nativo via DOM, nao so via CSS: a div do titulo
+  // tem uma classe "changed" que o Svelte remove depois de hidratar (o CSS
+  // que depende dela para de bater nesse momento -- mesmo bug do rodape).
+  function hideLiveStatusNative(main) {
+    function run() {
+      var heads = main.querySelectorAll("h2");
+      for (var i = 0; i < heads.length; i++) {
+        if (heads[i].textContent.trim() === "Live Status") {
+          var titleRow = heads[i].parentElement;
+          if (titleRow) titleRow.style.display = "none";
+          var sec = titleRow && titleRow.nextElementSibling;
+          if (sec) sec.style.display = "none";
+          return;
+        }
+      }
+    }
+    run();
+    new MutationObserver(run).observe(main, { childList: true, subtree: true });
+  }
+
   // Troca o emoji do card "All systems are operational" (ou o titulo "Active
   // Incidents", quando tem algo fora do ar) por um LED de verdade (mesmo
   // glow das barras), calculado a partir do status real de cada site em vez
@@ -313,6 +333,10 @@
     // "Past Incidents": historico de issues do GitHub, nao interessa pro
     // publico geral do status page.
     hideSectionByHeading(main, "Past Incidents");
+
+    // "Live Status" nativo: duplicata do grafico que agora mora no card de
+    // cada site.
+    hideLiveStatusNative(main);
 
     var wrap = document.createElement("section");
     wrap.className = "opium-uptime-widget";

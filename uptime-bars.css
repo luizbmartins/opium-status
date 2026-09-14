@@ -119,12 +119,20 @@ section.svelte-8lnl4f {
   margin-top: 12px;
   height: 40px;
   overflow: hidden;
+  border: 1px solid var(--card-border-color, #E8E6E0);
+  border-radius: 6px;
 }
 .opium-uptime-graph img {
   display: block;
   width: 100%;
   height: 40px;
-  object-fit: contain;
+  /* "contain" deixava a imagem inteira (proporcao 600x400) encolhida bem
+     estreita dentro dos 40px de altura, sobrando espaco vazio nos dois lados
+     (ficava "centralizada"). "cover" preenche a largura toda do card;
+     object-position:right mantem o trecho mais recente (extremidade direita
+     do grafico) visivel se algum corte horizontal acontecer. */
+  object-fit: cover;
+  object-position: right center;
   /* O PNG do Upptime vem com fundo branco solido e linha azul, sem opcao de
      configurar. "multiply" faz o branco desaparecer (funde com o fundo do
      card em qualquer tema) e o grayscale deixa a linha num tom neutro em vez
