@@ -243,11 +243,15 @@
         if (heads[i].textContent.trim() === "Live Status") {
           var titleRow = heads[i].parentElement;
           if (titleRow) titleRow.style.display = "none";
-          var sec = titleRow && titleRow.nextElementSibling;
-          if (sec) sec.style.display = "none";
-          return;
+          break;
         }
       }
+      // section.live-status e buscada pelo proprio seletor, nao por posicao
+      // relativa ao titulo -- quando inserimos nosso widget logo antes dela,
+      // o "proximo irmao" do titulo passa a ser o NOSSO widget, e uma versao
+      // anterior desse codigo escondia ele por engano a cada mutacao.
+      var sec = main.querySelector("section.live-status");
+      if (sec) sec.style.display = "none";
     }
     run();
     new MutationObserver(run).observe(main, { childList: true, subtree: true });
