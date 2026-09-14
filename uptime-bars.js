@@ -9,7 +9,7 @@
     { key: "dia", label: "Last 24h" },
     { key: "mes", label: "Last 30 days" },
   ];
-  var current = "dia";
+  var current = "hora";
 
   function fetchJson(url) {
     return fetch(url, { cache: "no-store" }).then(function (r) {
