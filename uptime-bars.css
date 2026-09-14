@@ -10,6 +10,31 @@ section.svelte-fqsq6s.live-status {
   margin-top: 24px;
 }
 
+/* LED do card "All systems are operational" / "Active Incidents", no lugar
+   do emoji padrao. Mesmo tratamento de glow das barras de uptime. */
+.opium-led {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  vertical-align: middle;
+  position: relative;
+  top: -2px;
+  margin-right: 2px;
+}
+.opium-led-up {
+  background: var(--up-border-left-color, #3B6D11);
+  box-shadow: 0 0 9px 2px rgba(59, 109, 17, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+.opium-led-down {
+  background: var(--down-border-left-color, #A32D2D);
+  box-shadow: 0 0 9px 2px rgba(163, 45, 45, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+.opium-led-degraded {
+  background: var(--degraded-border-left-color, #BA7517);
+  box-shadow: 0 0 9px 2px rgba(186, 117, 23, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
 .opium-uptime-widget {
   margin: 24px 0;
 }
