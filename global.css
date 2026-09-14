@@ -264,10 +264,17 @@ nav.svelte-a08hsz .container {
   width: 100%;
 }
 
-nav.svelte-a08hsz .logo {
+/* .logo.svelte-a08hsz repetido de proposito: o CSS padrao do Upptime tem
+   ".logo.svelte-a08hsz.svelte-a08hsz{padding:0.5rem 0;margin-right:2rem;
+   float:left}" com especificidade maior que um unico ".svelte-a08hsz" --
+   sem bater a especificidade aqui, aquele padding/margin vazam por baixo. */
+nav.svelte-a08hsz .logo.svelte-a08hsz {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 0;
+  margin-right: 0;
+  float: none;
 }
 nav.svelte-a08hsz .logo img { display: none; }
 nav.svelte-a08hsz .logo div { display: none; }
@@ -295,7 +302,11 @@ nav.svelte-a08hsz ul {
   margin: 0;
   padding: 0;
 }
-nav.svelte-a08hsz ul a {
+/* a.svelte-a08hsz repetido de proposito: mesma razao do .logo acima -- o
+   CSS padrao do Upptime tem "a.svelte-a08hsz.svelte-a08hsz{padding:1.5rem
+   2rem}" (especificidade maior), que sem isso deixa o link mais alto que
+   os 72px fixos da nav e cria rolagem vertical na pagina inteira. */
+nav.svelte-a08hsz ul a.svelte-a08hsz {
   display: inline-block;
   padding: 8px 14px;
   font-size: 14px;
@@ -305,8 +316,8 @@ nav.svelte-a08hsz ul a {
   border-radius: 6px;
   transition: background 0.15s, color 0.15s;
 }
-nav.svelte-a08hsz ul a:hover,
-nav.svelte-a08hsz ul a[aria-current="page"] {
+nav.svelte-a08hsz ul a.svelte-a08hsz:hover,
+nav.svelte-a08hsz ul a.svelte-a08hsz[aria-current="page"] {
   color: #1A1918;
   background: #F0EFEC;
 }
