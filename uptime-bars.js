@@ -22,6 +22,17 @@
   function dateKey(d) {
     return d.getUTCFullYear() + "-" + pad(d.getUTCMonth() + 1) + "-" + pad(d.getUTCDate());
   }
+  // Formata sempre em UTC (bate com os dados gravados, que sao todos UTC) e
+  // em 24h -- toLocaleString/toLocaleDateString sem timeZone:"UTC" convertem
+  // pro fuso do navegador por baixo dos panos (ex: 16h UTC virava "12/09" ou
+  // "01 PM" pra quem esta em UTC-3), mesmo o Date tendo sido construido a
+  // partir de um instante UTC certo.
+  function fmtDateUTC(d) {
+    return pad(d.getUTCMonth() + 1) + "/" + pad(d.getUTCDate()) + "/" + d.getUTCFullYear();
+  }
+  function fmtHourUTC(d) {
+    return pad(d.getUTCHours()) + ":" + pad(d.getUTCMinutes()) + " UTC";
+  }
 
   // Retorna lista de {status: 'up'|'down'|'degraded'|'none', title}
   function barsHora(recent) {
@@ -31,7 +42,7 @@
       var t = new Date(p.t);
       return {
         status: p.up ? "up" : "down",
-        title: t.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }) + " — " + (p.up ? "operational" : "down"),
+        title: fmtHourUTC(t) + " — " + (p.up ? "operational" : "down"),
       };
     });
   }
@@ -58,7 +69,7 @@
       }
       out.push({
         status: status,
-        title: d.toLocaleString("en-US", { day: "2-digit", month: "2-digit", hour: "2-digit" }) + "h — " +
+        title: fmtDateUTC(d) + " " + pad(d.getUTCHours()) + ":00 UTC — " +
           (status === "up" ? "operational" : status === "down" ? "down" : status === "degraded" ? "degraded" : "no data"),
       });
     }
@@ -82,7 +93,7 @@
       }
       out.push({
         status: status,
-        title: d.toLocaleDateString("en-US") + " — " +
+        title: fmtDateUTC(d) + " — " +
           (status === "up" ? "operational" : status === "down" ? "down all day" : status === "degraded" ? "degraded" : "no data"),
       });
     }
