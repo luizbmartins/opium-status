@@ -1,13 +1,10 @@
 
-/* O "Live Status" nativo do Upptime (grafico de tempo de resposta + uptime%,
-   com filtros 24h/7d/30d/1y/all) ficava escondido aqui -- na epoca (cron
-   instavel) os dados eram esparsos e o grafico nao dizia nada. Com o cron
-   estabilizado (Cloudflare Worker, 13/set/2026) voltou a fazer sentido
-   mostrar os dois: nosso widget de LEDs (visao rapida) acima, o grafico
-   nativo detalhado logo abaixo. */
+/* Esconde de novo o "Live Status" nativo (grafico ms + filtros 24h/7d/30d/1y/all)
+   -- desde que o grafico de resposta passou a ficar dentro do card de cada
+   site (opium-uptime-graph), essa secao virou duplicata da mesma informacao. */
 div.svelte-fqsq6s.f.changed,
 section.svelte-fqsq6s.live-status {
-  margin-top: 24px;
+  display: none !important;
 }
 
 /* LED do card "All systems are operational" / "Active Incidents", no lugar
@@ -120,15 +117,27 @@ section.svelte-8lnl4f {
 
 .opium-uptime-graph {
   margin-top: 12px;
-  border-radius: 8px;
+  height: 40px;
   overflow: hidden;
-  background: #fff;
-  border: 1px solid var(--card-border-color, #E8E6E0);
 }
 .opium-uptime-graph img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 40px;
+  object-fit: contain;
+  /* O PNG do Upptime vem com fundo branco solido e linha azul, sem opcao de
+     configurar. "multiply" faz o branco desaparecer (funde com o fundo do
+     card em qualquer tema) e o grayscale deixa a linha num tom neutro em vez
+     do azul fixo, acompanhando o tema da pagina. */
+  mix-blend-mode: multiply;
+  filter: grayscale(1);
+  opacity: 0.8;
+}
+@media (prefers-color-scheme: dark) {
+  .opium-uptime-graph img {
+    mix-blend-mode: screen;
+    filter: grayscale(1) invert(1);
+  }
 }
 
 .opium-uptime-stats {
