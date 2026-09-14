@@ -39,14 +39,17 @@
   function barsDia(hourly) {
     var now = new Date();
     var buckets = {};
-    (hourly || []).forEach(function (b) { buckets[b.h] = b; });
+    // Chave por timestamp numerico (nao string): build-series.py grava a
+    // hora em formato Python ("...+00:00"), diferente do d.toISOString() do
+    // JS ("...Z") -- comparar string nunca batia, a barra de 24h ficava
+    // sempre vazia mesmo com dado real gravado.
+    (hourly || []).forEach(function (b) { buckets[new Date(b.h).getTime()] = b; });
     var out = [];
     for (var i = 23; i >= 0; i--) {
       var d = new Date(now);
       d.setUTCMinutes(0, 0, 0);
       d.setUTCHours(d.getUTCHours() - i);
-      var key = d.toISOString();
-      var b = buckets[key];
+      var b = buckets[d.getTime()];
       var status = "none";
       if (b) {
         if (b.down === 0) status = "up";
