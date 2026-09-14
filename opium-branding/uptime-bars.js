@@ -62,23 +62,25 @@
     return out;
   }
 
-  function barsMes(dailyMinutesDown) {
+  function barsMes(daily) {
     var now = new Date();
+    var buckets = {};
+    (daily || []).forEach(function (b) { buckets[b.d] = b; });
     var out = [];
     for (var i = 29; i >= 0; i--) {
       var d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - i));
       var key = dateKey(d);
-      var mins = (dailyMinutesDown || {})[key];
+      var b = buckets[key];
       var status = "none";
-      if (mins !== undefined) {
-        if (mins <= 0) status = "up";
-        else if (mins >= 1380) status = "down";
+      if (b) {
+        if (b.down === 0) status = "up";
+        else if (b.up === 0) status = "down";
         else status = "degraded";
       }
       out.push({
         status: status,
         title: d.toLocaleDateString("pt-BR") + " — " +
-          (status === "up" ? "operacional" : status === "down" ? "fora do ar o dia todo" : status === "degraded" ? mins + " min fora do ar" : "sem dado"),
+          (status === "up" ? "operacional" : status === "down" ? "fora do ar o dia todo" : status === "degraded" ? "instabilidade" : "sem dado"),
       });
     }
     return out;
@@ -137,7 +139,9 @@
           .then(function (data) { renderBars(row._barsEl, barsDia(data)); })
           .catch(function () { renderBars(row._barsEl, barsDia([])); });
       } else {
-        renderBars(row._barsEl, barsMes(site.dailyMinutesDown));
+        fetchJson(BASE + site.slug + "-daily.json")
+          .then(function (data) { renderBars(row._barsEl, barsMes(data)); })
+          .catch(function () { renderBars(row._barsEl, barsMes([])); });
       }
     });
   }
