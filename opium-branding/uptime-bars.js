@@ -159,9 +159,31 @@
     new MutationObserver(run).observe(main, { childList: true, subtree: true });
   }
 
+  // O rodape do Upptime nao e HTML estatico: o client bundle monta
+  // "This page is [open source]($REPO), powered by [Upptime](...)" via JS
+  // depois que a pagina carrega -- por isso o sed no site.yml (que so mexe no
+  // HTML exportado) nunca resolvia de verdade, so limpava o que o curl via.
+  // Aqui removemos o link "open source" (+ a virgula que sobra) direto do DOM
+  // depois que o Svelte monta o rodape.
+  function stripOpenSourceFooterLink() {
+    function run() {
+      var link = document.querySelector('footer a[href*="github.com/luizbmartins/opium-status"]');
+      if (!link) return;
+      var next = link.nextSibling;
+      if (next && next.nodeType === Node.TEXT_NODE) {
+        next.textContent = next.textContent.replace(/^,\s*/, "");
+      }
+      link.remove();
+    }
+    run();
+    new MutationObserver(run).observe(document.body, { childList: true, subtree: true });
+  }
+
   function init() {
     var main = document.querySelector("main.container");
     if (!main) return;
+
+    stripOpenSourceFooterLink();
 
     // "Past Incidents": historico de issues do GitHub, nao interessa pro
     // publico geral do status page.
