@@ -7,8 +7,10 @@ section.svelte-fqsq6s.live-status {
   display: none !important;
 }
 
-/* LED do card "All systems are operational" / "Active Incidents", no lugar
-   do emoji padrao. Mesmo tratamento de glow das barras de uptime. */
+/* LED do card "All systems are operational" / "Partial outage" / "Not
+   operational", no lugar do emoji padrao. Cor fixa (nao troca por tema, como
+   as barras) + contorno de 1px + blur reduzido, sem efeito de hover (e so um
+   indicador, nao e interativo). Verde um pouco mais claro que o das barras. */
 .opium-led {
   display: inline-block;
   width: 11px;
@@ -18,18 +20,19 @@ section.svelte-fqsq6s.live-status {
   position: relative;
   top: -2px;
   margin-right: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 .opium-led-up {
-  background: var(--up-border-left-color, #3B6D11);
-  box-shadow: 0 0 9px 2px rgba(59, 109, 17, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  background: #A3D178;
+  box-shadow: 0 0 4px 1px rgba(163, 209, 120, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 .opium-led-down {
-  background: var(--down-border-left-color, #A32D2D);
-  box-shadow: 0 0 9px 2px rgba(163, 45, 45, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  background: #E27C7C;
+  box-shadow: 0 0 4px 1px rgba(226, 124, 124, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 .opium-led-degraded {
-  background: var(--degraded-border-left-color, #BA7517);
-  box-shadow: 0 0 9px 2px rgba(186, 117, 23, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  background: #E3AC5C;
+  box-shadow: 0 0 4px 1px rgba(227, 172, 92, 0.85), inset 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
 .opium-uptime-widget {

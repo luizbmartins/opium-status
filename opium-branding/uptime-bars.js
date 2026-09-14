@@ -258,15 +258,17 @@
   }
 
   // Troca o emoji do card "All systems are operational" (ou o titulo "Active
-  // Incidents", quando tem algo fora do ar) por um LED de verdade (mesmo
-  // glow das barras), calculado a partir do status real de cada site em vez
-  // de confiar só no texto -- o template do Upptime so tem string pronta pro
-  // caso "tudo ok"; sem incidente nenhuma variante "tudo fora do ar" com
-  // banner proprio existe, so essa lista de incidentes ativos.
+  // Incidents", quando tem algo fora do ar) por um LED de verdade + um texto
+  // proprio de 3 estados, calculado a partir do status real de cada site --
+  // o template do Upptime so tem string pronta pro caso "tudo ok"; sem
+  // incidente nenhuma variante "parcial"/"tudo fora" com banner proprio
+  // existe, so a lista de incidentes ativos.
   function decorateStatusBanner(main, sites) {
     var allDown = sites.length > 0 && sites.every(function (s) { return s.status !== "up"; });
     var anyDown = sites.some(function (s) { return s.status !== "up"; });
     var overall = allDown ? "down" : anyDown ? "degraded" : "up";
+    var label =
+      overall === "down" ? "Not operational" : overall === "degraded" ? "Partial outage" : "All systems are operational";
 
     function run() {
       var all = main.querySelectorAll("*");
@@ -275,14 +277,14 @@
         if (
           el.children.length === 0 &&
           el.textContent &&
-          /All systems are operational|Active Incidents/.test(el.textContent)
+          /All systems are operational|Active Incidents|Partial outage|Not operational/.test(el.textContent)
         ) {
-          var stripped = el.textContent.replace(/^[\p{Extended_Pictographic}️\s]+/u, "");
+          if (el.textContent.replace(/^[\p{Extended_Pictographic}️\s]+/u, "") === label) return;
           el.textContent = "";
           var led = document.createElement("span");
           led.className = "opium-led opium-led-" + overall;
           el.appendChild(led);
-          el.appendChild(document.createTextNode(" " + stripped));
+          el.appendChild(document.createTextNode(" " + label));
           return;
         }
       }
