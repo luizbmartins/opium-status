@@ -197,6 +197,12 @@
     img.src =
       "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/master/graphs/" + site.slug + "/response-time-week.png";
     graphWrap.appendChild(img);
+
+    var caption = document.createElement("span");
+    caption.className = "opium-uptime-graph-caption";
+    caption.textContent = "Updated daily";
+    graphWrap.appendChild(caption);
+
     row.appendChild(graphWrap);
 
     var stats = document.createElement("div");
