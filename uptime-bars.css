@@ -169,6 +169,13 @@ section.svelte-8lnl4f {
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
 }
+@media (prefers-color-scheme: dark) {
+  /* contorno preto (rgba(0,0,0,.2)) some contra o fundo escuro do card --
+     usa branco translucido pra continuar dando definicao na barra. */
+  .opium-bar {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+}
 
 /* "LED aceso" permanente: glow forte sempre visivel, nao so no hover.
    Cor fixa (tom do tema escuro) nos dois temas de proposito -- no tema claro

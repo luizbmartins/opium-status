@@ -279,7 +279,6 @@
           el.textContent &&
           /All systems are operational|Active Incidents|Partial outage|Not operational/.test(el.textContent)
         ) {
-          if (el.textContent.replace(/^[\p{Extended_Pictographic}️\s]+/u, "") === label) return;
           el.textContent = "";
           var led = document.createElement("span");
           led.className = "opium-led opium-led-" + overall;
