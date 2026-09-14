@@ -142,9 +142,30 @@
     });
   }
 
+  // Esconde secoes cujo titulo (h1/h2/h3) bate com o texto dado. O conteudo
+  // (ex: "Past Incidents") so entra no DOM depois da hidratacao do Svelte,
+  // entao observamos mudancas em vez de so checar uma vez no load.
+  function hideSectionByHeading(main, text) {
+    function run() {
+      var heads = main.querySelectorAll("h1, h2, h3");
+      for (var i = 0; i < heads.length; i++) {
+        if (heads[i].textContent.trim() === text) {
+          var sec = heads[i].closest("section") || heads[i].parentElement;
+          if (sec) sec.style.display = "none";
+        }
+      }
+    }
+    run();
+    new MutationObserver(run).observe(main, { childList: true, subtree: true });
+  }
+
   function init() {
     var main = document.querySelector("main.container");
     if (!main) return;
+
+    // "Past Incidents": historico de issues do GitHub, nao interessa pro
+    // publico geral do status page.
+    hideSectionByHeading(main, "Past Incidents");
 
     var wrap = document.createElement("section");
     wrap.className = "opium-uptime-widget";
