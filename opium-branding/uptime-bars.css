@@ -121,6 +121,7 @@ section.svelte-8lnl4f {
 .opium-uptime-graph {
   margin-top: 12px;
   height: 80px;
+  position: relative;
   display: flex;
   justify-content: flex-end;
   /* Borda no wrapper (largura toda do card, mesma largura da fileira de
@@ -130,6 +131,18 @@ section.svelte-8lnl4f {
   border: 1px solid var(--card-border-color, #E8E6E0);
   border-radius: 6px;
   overflow: hidden;
+}
+.opium-uptime-graph-caption {
+  position: absolute;
+  right: 4px;
+  bottom: 3px;
+  font-size: 9px;
+  line-height: 1;
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  pointer-events: none;
 }
 .opium-uptime-graph img {
   display: block;
