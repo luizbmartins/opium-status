@@ -22,7 +22,11 @@ on:
     types: [uptime]
   workflow_dispatch:
 concurrency:
-  group: ${{ github.repository }}-${{ github.head_ref || github.ref_name }}-upptime
+  # Grupo proprio (nao compartilhado com site/graphs/summary/response-time/updates):
+  # esses rodam raramente mas podem levar >1min, e com o grupo generico do Upptime
+  # os disparos de uptime a cada 5min ficavam na fila atras deles e o GitHub
+  # descartava boa parte (checks reais rodando a cada ~2h em vez de 5min).
+  group: ${{ github.repository }}-${{ github.head_ref || github.ref_name }}-upptime-check
   cancel-in-progress: false
 jobs:
   release:
