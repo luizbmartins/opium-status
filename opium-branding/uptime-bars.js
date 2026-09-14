@@ -5,9 +5,9 @@
   var BASE = "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/master/history/";
 
   var FILTERS = [
-    { key: "hora", label: "Última hora" },
-    { key: "dia", label: "Últimas 24h" },
-    { key: "mes", label: "Últimos 30 dias" },
+    { key: "hora", label: "Last hour" },
+    { key: "dia", label: "Last 24h" },
+    { key: "mes", label: "Last 30 days" },
   ];
   var current = "dia";
 
@@ -31,7 +31,7 @@
       var t = new Date(p.t);
       return {
         status: p.up ? "up" : "down",
-        title: t.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) + " — " + (p.up ? "operacional" : "fora do ar"),
+        title: t.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }) + " — " + (p.up ? "operational" : "down"),
       };
     });
   }
@@ -55,8 +55,8 @@
       }
       out.push({
         status: status,
-        title: d.toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit" }) + "h — " +
-          (status === "up" ? "operacional" : status === "down" ? "fora do ar" : status === "degraded" ? "instabilidade" : "sem dado"),
+        title: d.toLocaleString("en-US", { day: "2-digit", month: "2-digit", hour: "2-digit" }) + "h — " +
+          (status === "up" ? "operational" : status === "down" ? "down" : status === "degraded" ? "degraded" : "no data"),
       });
     }
     return out;
@@ -79,8 +79,8 @@
       }
       out.push({
         status: status,
-        title: d.toLocaleDateString("pt-BR") + " — " +
-          (status === "up" ? "operacional" : status === "down" ? "fora do ar o dia todo" : status === "degraded" ? "instabilidade" : "sem dado"),
+        title: d.toLocaleDateString("en-US") + " — " +
+          (status === "up" ? "operational" : status === "down" ? "down all day" : status === "degraded" ? "degraded" : "no data"),
       });
     }
     return out;
@@ -106,13 +106,18 @@
     icon.className = "opium-uptime-icon";
     icon.alt = "";
     icon.src = site.icon || "";
-    var name = document.createElement("a");
+    // Linhas de API/backend nao viram link publico -- so a URL do produto
+    // (Platform) faz sentido clicar a partir de uma pagina de status publica.
+    var isApiEndpoint = !!(site.url && site.url.indexOf("/api/") !== -1);
+    var name = document.createElement(isApiEndpoint ? "span" : "a");
     name.className = "opium-uptime-name";
     name.textContent = site.name;
-    name.href = site.url && site.url.indexOf("$") !== 0 ? site.url : "#";
+    if (!isApiEndpoint) {
+      name.href = site.url && site.url.indexOf("$") !== 0 ? site.url : "#";
+    }
     var tag = document.createElement("span");
     tag.className = "tag " + site.status;
-    tag.textContent = site.status === "up" ? "Operacional" : "Fora do ar";
+    tag.textContent = site.status === "up" ? "Operational" : "Down";
     head.appendChild(icon);
     head.appendChild(name);
     head.appendChild(tag);
@@ -199,7 +204,7 @@
     var titleRow = document.createElement("div");
     titleRow.className = "opium-uptime-titlerow";
     var h2 = document.createElement("h2");
-    h2.textContent = "Disponibilidade";
+    h2.textContent = "Availability";
     var tabs = document.createElement("div");
     tabs.className = "opium-uptime-tabs";
     FILTERS.forEach(function (f) {
@@ -231,7 +236,7 @@
       })
       .catch(function () {
         var p = document.createElement("p");
-        p.textContent = "Não foi possível carregar os dados de disponibilidade agora.";
+        p.textContent = "Could not load availability data right now.";
         wrap.appendChild(p);
       });
 
@@ -239,7 +244,7 @@
     if (liveStatusSection && liveStatusSection.parentNode) {
       // A secao padrao "Live Status" (titulo + filtros 24h/7d/30d/1y/all) fica
       // logo antes de section.live-status; escondemos as duas, ja que o widget
-      // "Disponibilidade" acima a substitui.
+      // "Availability" acima a substitui.
       var filterRow = liveStatusSection.previousElementSibling;
       liveStatusSection.parentNode.insertBefore(wrap, liveStatusSection);
       liveStatusSection.style.display = "none";

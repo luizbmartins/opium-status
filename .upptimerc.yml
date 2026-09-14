@@ -3,20 +3,26 @@ owner: luizbmartins # Your GitHub organization or username, where this repositor
 repo: opium-status # The name of this repository
 
 sites:
-  - name: Plataforma
+  # slug fixado pra bater com o history/*.json ja gravado (plataforma/banco-de-dados
+  # eram derivados do "name" antigo em portugues; sem isso, traduzir o name ia
+  # criar slugs novos e orfanizar o historico de hoje).
+  - name: Platform
     url: https://app.opium.vet/
+    slug: plataforma
   - name: API
     url: https://app.opium.vet/api/health
-  - name: Banco de Dados
+    slug: api
+  - name: Database
     url: https://app.opium.vet/api/health/db
+    slug: banco-de-dados
 
 status-website:
   # DNS: status.opium.vet aponta (CNAME, via Cloudflare Pages) pro site estatico gerado aqui
   cname: status.opium.vet
   logoUrl: https://raw.githubusercontent.com/luizbmartins/opium-status/master/assets/opium-logo.svg
   name: Opium — Status
-  introTitle: "**Status do Opium**"
-  introMessage: Disponibilidade do sistema, API e banco de dados, monitorados a cada poucos minutos via GitHub Actions. Página estática e independente da nossa infraestrutura — continua no ar mesmo se nossos servidores caírem.
+  introTitle: "**Opium Status**"
+  introMessage: System, API and database availability, monitored every few minutes via GitHub Actions. Static page, independent from our own infrastructure — stays up even if our servers go down.
   navbar:
     - title: Status
       href: /
