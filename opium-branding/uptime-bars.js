@@ -209,6 +209,40 @@
     });
   }
 
+  // Troca o emoji do card "All systems are operational" (ou o titulo "Active
+  // Incidents", quando tem algo fora do ar) por um LED de verdade (mesmo
+  // glow das barras), calculado a partir do status real de cada site em vez
+  // de confiar só no texto -- o template do Upptime so tem string pronta pro
+  // caso "tudo ok"; sem incidente nenhuma variante "tudo fora do ar" com
+  // banner proprio existe, so essa lista de incidentes ativos.
+  function decorateStatusBanner(main, sites) {
+    var allDown = sites.length > 0 && sites.every(function (s) { return s.status !== "up"; });
+    var anyDown = sites.some(function (s) { return s.status !== "up"; });
+    var overall = allDown ? "down" : anyDown ? "degraded" : "up";
+
+    function run() {
+      var all = main.querySelectorAll("*");
+      for (var i = 0; i < all.length; i++) {
+        var el = all[i];
+        if (
+          el.children.length === 0 &&
+          el.textContent &&
+          /All systems are operational|Active Incidents/.test(el.textContent)
+        ) {
+          var stripped = el.textContent.replace(/^[\p{Extended_Pictographic}️\s]+/u, "");
+          el.textContent = "";
+          var led = document.createElement("span");
+          led.className = "opium-led opium-led-" + overall;
+          el.appendChild(led);
+          el.appendChild(document.createTextNode(" " + stripped));
+          return;
+        }
+      }
+    }
+    run();
+    new MutationObserver(run).observe(main, { childList: true, subtree: true });
+  }
+
   // Esconde secoes cujo titulo (h1/h2/h3) bate com o texto dado. O conteudo
   // (ex: "Past Incidents") so entra no DOM depois da hidratacao do Svelte,
   // entao observamos mudancas em vez de so checar uma vez no load.
@@ -291,6 +325,7 @@
           wrap.appendChild(row);
         });
         update(rows);
+        decorateStatusBanner(main, sites);
       })
       .catch(function () {
         var p = document.createElement("p");
