@@ -190,7 +190,13 @@
 
     var liveStatusSection = document.querySelector("section.live-status");
     if (liveStatusSection && liveStatusSection.parentNode) {
+      // A secao padrao "Live Status" (titulo + filtros 24h/7d/30d/1y/all) fica
+      // logo antes de section.live-status; escondemos as duas, ja que o widget
+      // "Disponibilidade" acima a substitui.
+      var filterRow = liveStatusSection.previousElementSibling;
       liveStatusSection.parentNode.insertBefore(wrap, liveStatusSection);
+      liveStatusSection.style.display = "none";
+      if (filterRow) filterRow.style.display = "none";
     } else {
       main.appendChild(wrap);
     }
