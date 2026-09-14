@@ -110,6 +110,37 @@ section.svelte-fqsq6s.live-status {
   height: 28px;
 }
 
+/* Escondemos as secoes nativas do Upptime "Overall Uptime" e "Response Time"
+   (cada uma lista os 3 sites separada) -- o grafico + uptime% + resposta
+   media agora ficam dentro do card de cada site, abaixo (opium-uptime-graph
+   / opium-uptime-stats). */
+section.svelte-8lnl4f {
+  display: none;
+}
+
+.opium-uptime-graph {
+  margin-top: 12px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--card-border-color, #E8E6E0);
+}
+.opium-uptime-graph img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.opium-uptime-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--body-text-color, #1A1918);
+  opacity: 0.75;
+}
+
 .opium-bar {
   flex: 1;
   min-width: 2px;
