@@ -185,6 +185,30 @@
 
     row.appendChild(head);
     row.appendChild(bars);
+
+    // Grafico de tempo de resposta (PNG gerado pelo Upptime) + uptime% e
+    // media de resposta -- substitui as secoes nativas "Overall Uptime" e
+    // "Response Time" (escondidas via CSS), reunindo tudo no card do site.
+    var graphWrap = document.createElement("div");
+    graphWrap.className = "opium-uptime-graph";
+    var img = document.createElement("img");
+    img.alt = "";
+    img.loading = "lazy";
+    img.src =
+      "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/master/graphs/" + site.slug + "/response-time-week.png";
+    graphWrap.appendChild(img);
+    row.appendChild(graphWrap);
+
+    var stats = document.createElement("div");
+    stats.className = "opium-uptime-stats";
+    var uptimeStat = document.createElement("span");
+    uptimeStat.textContent = "Uptime: " + (site.uptime || "—");
+    var timeStat = document.createElement("span");
+    timeStat.textContent = "Avg. response: " + (site.time != null ? site.time + "ms" : "—");
+    stats.appendChild(uptimeStat);
+    stats.appendChild(timeStat);
+    row.appendChild(stats);
+
     row._barsEl = bars;
     row._site = site;
     return row;
