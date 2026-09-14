@@ -86,12 +86,70 @@
     return out;
   }
 
+  // Tooltip customizado (nao usamos o "title" nativo do navegador porque ele
+  // nao aparece de forma confiavel no toque em mobile). Um unico elemento
+  // reaproveitado pra todas as barras.
+  var tooltipEl = null;
+  var activeBar = null;
+
+  function ensureTooltip() {
+    if (!tooltipEl) {
+      tooltipEl = document.createElement("div");
+      tooltipEl.className = "opium-bar-tooltip";
+      document.body.appendChild(tooltipEl);
+    }
+    return tooltipEl;
+  }
+
+  function hideTooltip() {
+    if (activeBar) activeBar.classList.remove("is-active");
+    activeBar = null;
+    if (tooltipEl) tooltipEl.classList.remove("visible");
+  }
+
+  function showTooltip(bar) {
+    var tip = ensureTooltip();
+    tip.textContent = bar.getAttribute("data-tip") || "";
+    tip.classList.add("visible");
+
+    var rect = bar.getBoundingClientRect();
+    var tipRect = tip.getBoundingClientRect();
+    var left = rect.left + rect.width / 2 - tipRect.width / 2;
+    left = Math.max(6, Math.min(left, window.innerWidth - tipRect.width - 6));
+    tip.style.left = left + "px";
+    tip.style.top = Math.max(6, rect.top - tipRect.height - 8) + "px";
+
+    if (activeBar && activeBar !== bar) activeBar.classList.remove("is-active");
+    activeBar = bar;
+    bar.classList.add("is-active");
+  }
+
+  // Delegado no document: cobre barras recriadas a cada troca de filtro.
+  document.addEventListener("mouseover", function (e) {
+    var bar = e.target.closest && e.target.closest(".opium-bar");
+    if (bar) showTooltip(bar);
+  });
+  document.addEventListener("mouseout", function (e) {
+    var bar = e.target.closest && e.target.closest(".opium-bar");
+    if (bar && bar === activeBar) hideTooltip();
+  });
+  document.addEventListener("click", function (e) {
+    var bar = e.target.closest && e.target.closest(".opium-bar");
+    if (bar) {
+      showTooltip(bar);
+      e.stopPropagation();
+    } else {
+      hideTooltip();
+    }
+  });
+
   function renderBars(container, bars) {
+    hideTooltip();
     container.innerHTML = "";
     bars.forEach(function (b) {
       var el = document.createElement("span");
       el.className = "opium-bar opium-bar-" + b.status;
-      el.title = b.title;
+      el.setAttribute("data-tip", b.title);
       container.appendChild(el);
     });
   }
