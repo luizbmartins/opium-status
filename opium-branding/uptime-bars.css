@@ -1,9 +1,13 @@
 
-/* Esconde o "Live Status" nativo do Upptime (grafico de ms em PNG) —
-   substituido pelo widget de barras (opium-uptime-widget) injetado via JS. */
+/* O "Live Status" nativo do Upptime (grafico de tempo de resposta + uptime%,
+   com filtros 24h/7d/30d/1y/all) ficava escondido aqui -- na epoca (cron
+   instavel) os dados eram esparsos e o grafico nao dizia nada. Com o cron
+   estabilizado (Cloudflare Worker, 13/set/2026) voltou a fazer sentido
+   mostrar os dois: nosso widget de LEDs (visao rapida) acima, o grafico
+   nativo detalhado logo abaixo. */
 div.svelte-fqsq6s.f.changed,
 section.svelte-fqsq6s.live-status {
-  display: none !important;
+  margin-top: 24px;
 }
 
 .opium-uptime-widget {
