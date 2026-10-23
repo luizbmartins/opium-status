@@ -1,7 +1,7 @@
 url: https://app.opium.vet/
-status: up
-code: 200
-responseTime: 679
-lastUpdated: 2026-10-23T01:19:05.011Z
+status: down
+code: 502
+responseTime: 197
+lastUpdated: 2026-10-23T09:51:10.718Z
 startTime: 2026-09-13T18:44:14.130Z
 generator: Upptime <https://github.com/upptime/upptime>
