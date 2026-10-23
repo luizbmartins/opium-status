@@ -4,18 +4,20 @@
     "url": "https://app.opium.vet/",
     "icon": "https://icons.duckduckgo.com/ip3/app.opium.vet.ico",
     "slug": "plataforma",
-    "status": "up",
+    "status": "down",
     "uptime": "100.00%",
     "uptimeDay": "100.00%",
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "100.00%",
-    "time": 737,
-    "timeDay": 679,
-    "timeWeek": 734,
-    "timeMonth": 742,
-    "timeYear": 737,
-    "dailyMinutesDown": {}
+    "time": 725,
+    "timeDay": 438,
+    "timeWeek": 667,
+    "timeMonth": 725,
+    "timeYear": 725,
+    "dailyMinutesDown": {
+      "2026-10-23": 0
+    }
   },
   {
     "name": "API",
