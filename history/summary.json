@@ -5,19 +5,17 @@
     "icon": "https://icons.duckduckgo.com/ip3/app.opium.vet.ico",
     "slug": "plataforma",
     "status": "up",
-    "uptime": "99.99%",
-    "uptimeDay": "99.68%",
-    "uptimeWeek": "99.95%",
-    "uptimeMonth": "99.99%",
-    "uptimeYear": "99.99%",
-    "time": 730,
-    "timeDay": 615,
-    "timeWeek": 701,
-    "timeMonth": 732,
-    "timeYear": 730,
-    "dailyMinutesDown": {
-      "2026-10-23": 5
-    }
+    "uptime": "100.00%",
+    "uptimeDay": "100.00%",
+    "uptimeWeek": "100.00%",
+    "uptimeMonth": "100.00%",
+    "uptimeYear": "100.00%",
+    "time": 729,
+    "timeDay": 612,
+    "timeWeek": 707,
+    "timeMonth": 724,
+    "timeYear": 729,
+    "dailyMinutesDown": {}
   },
   {
     "name": "API",
@@ -30,11 +28,11 @@
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "100.00%",
-    "time": 475,
-    "timeDay": 544,
-    "timeWeek": 500,
+    "time": 478,
+    "timeDay": 603,
+    "timeWeek": 499,
     "timeMonth": 450,
-    "timeYear": 475,
+    "timeYear": 478,
     "dailyMinutesDown": {}
   },
   {
@@ -48,11 +46,11 @@
     "uptimeWeek": "100.00%",
     "uptimeMonth": "100.00%",
     "uptimeYear": "99.94%",
-    "time": 458,
-    "timeDay": 606,
-    "timeWeek": 521,
-    "timeMonth": 477,
-    "timeYear": 458,
+    "time": 454,
+    "timeDay": 267,
+    "timeWeek": 469,
+    "timeMonth": 465,
+    "timeYear": 454,
     "dailyMinutesDown": {
       "2026-09-13": 35
     }
